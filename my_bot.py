@@ -8,15 +8,15 @@ from requests import ReadTimeout, HTTPError, ConnectionError
 
 def get_data(token_devman, token_bot, bot_chat_id):
     bot = telegram.Bot(token=token_bot)
-    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
-                             " (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
-               "Authorization": "Token {}".format(token_devman)
+    headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
+                             ' (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
+               'Authorization': 'Token {}'.format(token_devman)
                }
 
-    url = "https://dvmn.org/api/long_polling/"
+    url = 'https://dvmn.org/api/long_polling/'
 
     timestamp_param = None
-    payload = ""
+    payload = ''
     while True:
         if timestamp_param:
             payload = {'timestamp': timestamp_param}
@@ -40,10 +40,9 @@ def get_data(token_devman, token_bot, bot_chat_id):
             print(exc)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     load_dotenv()
-    token_devman = os.getenv("API_KEY_DEVMAN")
-    token_bot = os.getenv("BOT_KEY")
-    bot_chat_id = os.getenv("CHAT_ID")
-
+    token_devman = os.getenv('API_KEY_DEVMAN')
+    token_bot = os.getenv('BOT_KEY')
+    bot_chat_id = os.getenv('CHAT_ID')
     get_data(token_devman, token_bot, bot_chat_id)
