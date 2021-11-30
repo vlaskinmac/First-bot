@@ -1,4 +1,4 @@
-# First-bot
+# Notification_bot
 
 **Notifications about the status of completed work.**
 
