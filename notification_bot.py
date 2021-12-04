@@ -22,16 +22,16 @@ def check_task_status(token_devman, token_bot, bot_chat_id):
         try:
             response = requests.get(url, headers=headers, params=payload)
             response.raise_for_status()
-            response_collections_status = response.json()
-            if response_collections_status['status'] == 'timeout':
-                timestamp_param = response_collections_status['timestamp_to_request']
+            response_different_data = response.json()
+            if response_different_data['status'] == 'timeout':
+                timestamp_param = response_different_data['timestamp_to_request']
                 bot.send_message(
                     text='Работа все еще не поверена! Нужно дать преподавателю еще 90 секунд на проверкку!',
                     chat_id=bot_chat_id
                 )
-            elif response_collections_status['status'] == 'found':
-                timestamp_param = response_collections_status['last_attempt_timestamp']
-                last_attempt = response_collections_status['new_attempts'][0]
+            elif response_different_data['status'] == 'found':
+                timestamp_param = response_different_data['last_attempt_timestamp']
+                last_attempt = response_different_data['new_attempts'][0]
                 if last_attempt['is_negative']:
                     bot.send_message(text='Преподаватель проверил работу!', chat_id=bot_chat_id)
                     bot.send_message(
