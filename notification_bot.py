@@ -1,5 +1,6 @@
 import os
 import time
+import logging
 
 import requests
 import telegram
@@ -50,6 +51,8 @@ def check_task_status(token_devman, token_bot, bot_chat_id):
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.WARNING)
+    logging.warning('Бот запущен')
     load_dotenv()
     token_devman = os.getenv('API_KEY_DEVMAN')
     token_bot = os.getenv('BOT_KEY')
