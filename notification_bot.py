@@ -47,18 +47,19 @@ def check_task_status(token_devman, bot_chat_id):
         except ReadTimeout:
             pass
         except HTTPError as exc:
-            logger.debug('Бот упал! Ошибка:', exc)
+            logger.debug(exc)
         except ConnectionError:
+            logger.debug('Бот отдыхает 5 сек')
             time.sleep(5)
 
 
 if __name__ == '__main__':
-    logger = logging.getLogger('Logger')
     load_dotenv()
     token_devman = os.getenv('API_KEY_DEVMAN')
     token_bot = os.getenv('BOT_KEY')
     bot_chat_id = os.getenv('CHAT_ID')
     bot = telegram.Bot(token=token_bot)
+    logger = logging.getLogger('Logger')
     logger.setLevel(logging.DEBUG)
     logger.addHandler(TelegramLogsHandler(bot, bot_chat_id))
     logger.debug('Бот запущен')

@@ -12,4 +12,3 @@ class TelegramLogsHandler(logging.Handler):
         log_entry = self.format(record)
         self.bot.send_message(chat_id=self.bot_chat_id, text=log_entry)
 
-
