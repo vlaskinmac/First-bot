@@ -65,6 +65,43 @@ CHAT_ID=-1001647060957
 $ python my_bot.py 
 ```
 
+## Deploy on [Heroku](https://heroku.com/)
+
+- You need to sign up to the [Heroku](https://heroku.com/)
+
+
+- Download and install Heroku CLI
+```python
+$ sudo snap install --classic heroku
+```
+- Type command:
+```python
+$ heroku login
+```
+- Clone the repository:
+```python
+$ heroku git:clone -a floating-meadow-39999
+$ cd floating-meadow-39999
+```
+- Deploy your changes:
+```python
+$ git add .
+$ git commit -am "make it better"
+$ git push heroku master
+```
+### Sensitive data
+Log in to your personal account to the [Heroku](https://heroku.com/)
+
+In the "Settings" tab, click on "Config Vars" and record all
+sensitive data.
+
+**Starting the server**
+
+- Go to the tab "Overview"
+- Select an application
+- Switch the touch bar
+
+**The application is deployed!**
 
 
 ## Authors
