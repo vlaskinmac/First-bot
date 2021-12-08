@@ -8,9 +8,11 @@ import telegram
 from dotenv import load_dotenv
 from requests import ReadTimeout, HTTPError, ConnectionError
 
+from mod_log import TelegramLogsHandler
 
-def check_task_status(token_devman, token_bot, bot_chat_id):
-    bot = telegram.Bot(token=token_bot)
+
+def check_task_status(token_devman, bot_chat_id):
+
     headers = {
                'Authorization': 'Token {}'.format(token_devman)
                }
@@ -45,16 +47,21 @@ def check_task_status(token_devman, token_bot, bot_chat_id):
         except ReadTimeout:
             pass
         except HTTPError as exc:
-            print(exc)
+            logger.debug('Бот упал! Ошибка:', exc)
         except ConnectionError:
             time.sleep(5)
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.WARNING)
-    logging.warning('Бот запущен')
+    logger = logging.getLogger('Logger')
     load_dotenv()
     token_devman = os.getenv('API_KEY_DEVMAN')
     token_bot = os.getenv('BOT_KEY')
     bot_chat_id = os.getenv('CHAT_ID')
-    check_task_status(token_devman, token_bot, bot_chat_id)
+    bot = telegram.Bot(token=token_bot)
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(TelegramLogsHandler(bot, bot_chat_id))
+    logger.debug('Бот запущен')
+    check_task_status(token_devman,  bot_chat_id)
+
+
