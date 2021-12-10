@@ -8,10 +8,24 @@ import telegram
 from dotenv import load_dotenv
 from requests import ReadTimeout, HTTPError, ConnectionError
 
-from mod_log import TelegramLogsHandler
+
+class TelegramLogsHandler(logging.Handler):
+
+    def __init__(self, bot, bot_chat_id):
+        super().__init__()
+        self.bot_chat_id = bot_chat_id
+        self.bot = bot
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.bot.send_message(chat_id=self.bot_chat_id, text=log_entry)
+
+
+logger = logging.getLogger('Logger')
 
 
 def check_task_status(token_devman, bot_chat_id):
+    logger.debug('Бот запущен')
 
     headers = {
                'Authorization': 'Token {}'.format(token_devman)
@@ -59,10 +73,8 @@ if __name__ == '__main__':
     token_bot = os.getenv('BOT_KEY')
     bot_chat_id = os.getenv('CHAT_ID')
     bot = telegram.Bot(token=token_bot)
-    logger = logging.getLogger('Logger')
     logger.setLevel(logging.DEBUG)
     logger.addHandler(TelegramLogsHandler(bot, bot_chat_id))
-    logger.debug('Бот запущен')
     check_task_status(token_devman,  bot_chat_id)
 
 
